@@ -3,6 +3,11 @@
 ## About
 This project aims to simplify and automate the process of creating custom multiboot USB flash drives. Highly usable by SysAdmin/DevOps guys.
 
+ * Creates both BIOS and UEFI boot capable flash disk
+ * Manages GRUB config file and synces needed ISOs
+ * Holds cache with downloaded ISOs on computer (/tmp/iso)
+ * Update-capable - no need to reformat the whole drive on changes
+
 ## Prerequisities
 
  * USB flash drive (of any size, depends on how much stuff you want to fit in)

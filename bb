@@ -39,7 +39,8 @@ ${FDISK} -l ${DEV} | ${GREP} ^/dev | ${GREP} -q "W95 FAT32" && \
 if [ -e ${TARGET}/.bootbuddy ]; then
   ${ECHO} "BootBuddy drive identified! :)"
   ${ECHO} "(Re)creating base directory structure"
-  ${MKDIR} -vp ${TARGET}/{boot,iso}
+  ${MKDIR} -vp ${TARGET}/{iso,boot}
+  ${MKDIR} -vp ${TARGET}/boot/grub
   ${MKDIR} -vp ${TARGET}/EFI/BOOT
 else
   ${ECHO} "BootBuddy not found :("
@@ -65,7 +66,8 @@ else
   ${MOUNT} ${DEV}1 ${TARGET} || exit 1
 
   ${ECHO} "Creating base directory structure"
-  ${MKDIR} -vp ${TARGET}/{boot,iso}
+  ${MKDIR} -vp ${TARGET}/{iso,boot}
+  ${MKDIR} -vp ${TARGET}/boot/grub
   ${MKDIR} -vp ${TARGET}/EFI/BOOT
 
 fi
@@ -79,7 +81,7 @@ ${ECHO} "Downloading ISO images into ${ISO_DIR}"
 ${BB_WIZ} -d ${ISO_DIR}
 
 ${ECHO} "Copying ISOs to flash drive"
-${RSYNC} --info=FLIST2,PROGRESS1,NAME2 --human-readable --files-from=<(${BB_WIZ} -s) ${ISO_DIR} ${TARGET}/iso/
+${RSYNC} --info=FLIST2,PROGRESS1,NAME2,REMOVE --human-readable --delete-excluded --include-from=<(${BB_WIZ} -s) --exclude=* -r ${ISO_DIR}/ ${TARGET}/iso/
 
 ${ECHO} "Syncing ${DEV}"
 ${SYNC} && ${SYNC}
@@ -100,7 +102,9 @@ ${ECHO} "Removing work directory ${TARGET}"
 ${RMDIR} ${TARGET}
 ${EJECT} ${DEV}
 
-${ECHO}
-${ECHO} -e "\t+--------------------------------------+"
-${ECHO} -e "\t| Your BootBuddy USB stick is ready ;) |"
-${ECHO} -e "\t+--------------------------------------+"
+${ECHO} -e "\e[0;32m"
+${ECHO} -e "\t+---------------------------------------+"
+${ECHO} -e "\t|   The BootBuddy USB stick is ready!   |"
+${ECHO} -e "\t|    Feel free to unplug and use it!    |"
+${ECHO} -e "\t+---------------------------------------+"
+${ECHO} -e "\e[0m"
