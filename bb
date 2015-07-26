@@ -100,7 +100,7 @@ ${ECHO} "Unmounting"
 ${UMOUNT} ${TARGET}
 ${ECHO} "Removing work directory ${TARGET}"
 ${RMDIR} ${TARGET}
-${EJECT} ${DEV}
+# ${EJECT} ${DEV}
 
 ${ECHO} -e "\e[0;32m"
 ${ECHO} -e "\t+---------------------------------------+"
