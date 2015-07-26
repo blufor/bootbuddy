@@ -33,7 +33,7 @@ ${MKDIR} -vp ${ISO_DIR}
 ${MKDIR} -vp ${TARGET}
 
 ${ECHO} -n "Testing presence of existing BootBuddy... "
-${FDISK} -l ${DEV} | ${GREP} ^/dev | ${GREP} -q "W95 FAT32" && \
+${FDISK} -l ${DEV} 2>/dev/null | ${GREP} ^/dev | ${GREP} -q "W95 FAT32" && \
   ( ${GREP} -q ${TARGET} /proc/mounts || ${MOUNT} LABEL=BOOTBUDDY ${TARGET} 2>/dev/null )
 
 if [ -e ${TARGET}/.bootbuddy ]; then
